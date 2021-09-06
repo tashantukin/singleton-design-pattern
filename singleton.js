@@ -15,7 +15,7 @@ var CircleGeneratorSingleton  = (function() {
         var _aCircle = [],
             _stage = $('.advert');
 
-            function _position (circe, left, top){
+            function _position (circle, left, top){
                 circle.css('left', left)
                 circle.css('top', top)
             }
@@ -64,9 +64,11 @@ var CircleGeneratorSingleton  = (function() {
 
         }
     }
-})
+})()
 
-   $(document).ready(function(){
+
+
+$(win.document).ready(function(){
         $('.advert').click(function(e){
            
            console.log('click')
@@ -78,4 +80,13 @@ var CircleGeneratorSingleton  = (function() {
 
         })
     })
+
+
+  
 })(window, jQuery)
+
+
+
+
+
+
