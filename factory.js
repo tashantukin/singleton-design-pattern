@@ -1,12 +1,32 @@
-//check out the delayed instantiation of an object
+//see when we need to have more control on customizing an item
+// check out how factory removes the need for the implementing object to know how to implement
+// make it easy to update and add more versions or updates of the object
 
-//take a look at a constant interface to gain access to the object
-
-// see how only one instance of the object is needed
 
 
 (function (win, $) {
 
+
+ var RedCircle = function (){
+     this.item = $(`<div class="circle"> </div>`)
+ },
+
+    BlueCircle = function () {
+         this.item = $(`<div class="circle" style="background:blue"> </div>`)
+    },
+    CircleFactory = function() {
+        this.create = (color) => {
+            if(color == 'blue') {
+                return new BlueCircle();
+            }else {
+                return new RedCircle();
+            }
+        }
+    }
+
+
+
+//circle factory
 var CircleGeneratorSingleton  = (function() {
     var instance;
 
@@ -14,14 +34,16 @@ var CircleGeneratorSingleton  = (function() {
 
         var _aCircle = [],
             _stage = $('.advert');
+            _cf = new CircleFactory();
+
 
             function _position (circle, left, top){
                 circle.css('left', left)
                 circle.css('top', top)
             }
 
-            function create(left, top){
-                var circle = $(`<div class="circle"> </div>`)
+            function create(left, top,color){
+                var circle = _cf.create(color).item;
                 _position(circle, left, top)
                 return circle;
 
@@ -70,11 +92,21 @@ $(win.document).ready(function(){
            
            console.log('click')
            var cg = CircleGeneratorSingleton.getInstance();
-            var circle = cg.create(e.pageX-25, e.pageY-25)
+            var circle = cg.create(e.pageX-25, e.pageY-25,"red")
 
             cg.add(circle);
 
 
+        })
+
+        $(document).keypress(function(e){
+            if (e.key == 'a') {
+                var cg = CircleGeneratorSingleton.getInstance();
+                   var circle = cg.create(e.pageX-25, e.pageY-25,"blue")
+
+            cg.add(circle);
+
+            }
         })
     })
 
